@@ -1,8 +1,13 @@
 class BlogsController < ApplicationController
   before_action :set_blog, only: [:show, :edit, :update, :destroy]
 
+  before_action :login_check, only: [:index, :new, :edit, :show]
+
+
+
   # GET /blogs
   # GET /blogs.json
+
   def index
     @blogs = Blog.all
   end
@@ -61,7 +66,14 @@ class BlogsController < ApplicationController
     end
   end
 
-  private
+  def login_check
+    unless logged_in?
+      flash[:error] = "You must be logged in to access this section"
+      redirect_to new_session_path # halts request cycle
+    end
+  end
+
+private
     # Use callbacks to share common setup or constraints between actions.
     def set_blog
       @blog = Blog.find(params[:id])
@@ -71,4 +83,4 @@ class BlogsController < ApplicationController
     def blog_params
       params.require(:blog).permit(:title, :content)
     end
-end
+  end
