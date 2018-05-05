@@ -1,3 +1,25 @@
 <h1><%= @user.name %>のページ</h1>
 
 <p>メールアドレス: <%= @user.email %></p>
+<!-- お気に入りのblogs each -->
+<div class="row">
+<% @favorites_blogs.each do |blog| %>
+  <div class="col-xs-12 col-md-6 blog-panel">
+    <h2><%= blog.title %></h2>
+    <p><%= blog.content %></p>
+    <p><%= blog.created_at %></p>
+    <div class="blog-links">
+      <%= link_to 'Show', blog, class: 'btn btn-default' %>
+
+      <% if current_user.id == blog.user_id %>
+        <%= link_to 'Edit', edit_blog_path(blog), class: 'btn btn-info' %>
+        <%= link_to 'Destroy', blog, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+      <% end %>
+
+
+      <%#= link_to 'Edit', edit_blog_path(blog), class: 'btn btn-info' %>
+      <%#= link_to 'Destroy', blog, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+    </div>
+  </div>
+  <% end %>
+  </div>
